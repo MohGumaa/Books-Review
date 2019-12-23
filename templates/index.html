@@ -1,0 +1,21 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+  Home
+{% endblock %}
+
+{% block body %}
+  <div class="showcase">
+    <div class="content text-light">
+      {% if session.logged_in == Null %}
+        <h1 class="title font-weight-bold ">Welcome To Book Review</h1>
+        <p class="lead text">This application let you search for books, leave reviews for individual books, and see the reviews made by other people</p>
+        <a href="/register" class="btn btn-primary btn-lg">Join US</a>
+        <a href="/login" class="btn btn-success btn-lg">Sign Up</a>
+        {% else %}
+          <h1 class="title font-weight-bold">Welcome To Book Review</h1>
+          <p class="font-italic text text-info">{{session.username}}</p>
+       {% endif%}
+     </div>
+   </div>
+{% endblock %}

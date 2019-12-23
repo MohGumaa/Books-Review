@@ -1,0 +1,72 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+   {{book.title}} book
+{% endblock %}
+
+{% block body %}
+  <div class="container marg">
+    <table class="table table-bordered">
+      <thead class="thead-light">
+        <tr>
+          <th scope="col">ISBN</th>
+          <th scope="col">Title</th>
+          <th scope="col">Author</th>
+          <th scope="col">Year</th>
+          <th scope="col">Average Rating</th>
+          <th scope="col">Reviews</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>{{book.isbn}}</td>
+          <td>{{book.title}}</td>
+          <td>{{book.author}}</td>
+          <td>{{book.year}}</td>
+          <td>{{average_rating}}</td>
+          <td>{{ratings_count}}</td>
+        </tr>
+      </tbody>
+    </table>
+    <p class="h1 mb-3">Leave a review ?</p>
+    <form class="" action="/bookpage/{{book.isbn}}" method="post">
+      <label class="my-1 mr-2" for="inlineFormCustomSelectPref">Rating</label>
+      <select class="custom-select my-1 mr-sm-2" id="inlineFormCustomSelectPref" name="rating">
+        <option disabled selected value="">Choose...</option>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+      </select>
+      <div class="form-group">
+        <label for="exampleFormControlTextarea1">Review</label>
+        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" required name="review"></textarea>
+      </div>
+      <button class="btn btn-primary" type="submit">Submit</button>
+    </form>
+
+    <h2 class="mt-5 h2">Reviws :</h2>
+    <div>
+      <ul class="list-group list-group-flush">
+        {% for review in reviews %}
+          <li class="list-group-item">
+            <div class="card">
+              <div class="card-header">
+                {{review.username}}: * {{review.rating}}
+              </div>
+              <div class="card-body">
+                <p class="card-text">{{review.review}}.</p>
+              </div>
+              <div class="card-footer">
+                <small class="text-muted">Last updated {{review.publish_date}}</small>
+              </div>
+            </div>
+          </li>
+        {% else %}
+          <li class="list-group-item"><h1>No Review</h1></li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+{% endblock %}

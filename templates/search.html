@@ -1,0 +1,17 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+  Search
+{% endblock %}
+
+{% block body %}
+  <div class="container marg">
+    <div class="jumbotron text-center">
+      <h1>Search by isbn or title or author.</h1>
+      <form  action="{{ url_for('search') }}" method="post">
+        <input type="text" class="form-control" name="book" id="searchText" placeholder="Search Book Here.....">
+        <button class="btn btn-primary mt-3" type="submit">Search</button>
+      </form>
+    </div>
+  </div>
+{% endblock %}
