@@ -23,12 +23,7 @@ Session(app)
 engine = create_engine(os.getenv("DATABASE_URL"))
 db = scoped_session(sessionmaker(bind=engine))
 
-# Index
-@app.route("/")
-def index():
-    return render_template('index.html')
-
-#  WTF registeration
+#  WTF registeration Form
 class RegisterForm(Form):
     name = StringField('Name', validators=[validators.DataRequired(), validators.Length(min=4, max=25)])
     username = StringField('Username',validators= [validators.DataRequired(), validators.Length(min=4, max=25)])
@@ -38,6 +33,11 @@ class RegisterForm(Form):
         validators.EqualTo('confirm', message='Passwords must match')
     ])
     confirm = PasswordField('Repeat Password')
+
+# Index Route
+@app.route("/")
+def index():
+    return render_template('index.html')
 
 # User Register
 @app.route('/register', methods=['GET', 'POST'])
@@ -74,7 +74,7 @@ def register():
         db.close()
 
         # Flashing after complete transaction
-        flash ('You are now registered and can log in', 'success')
+        flash ('You are now Registered and you can log in', 'success')
 
         # Redirector
         return redirect(url_for('login'))
@@ -103,19 +103,19 @@ def login():
                 session['username'] = username.capitalize()
                 session["user_id"] = user.id
 
-                message = f" Your are now logged in {session['username']}"
-                flash(message, 'success')
+                # message = f" Your are now logged in {session['username']}"
+                # flash(message, 'success')
                 return redirect(url_for('index'))
 
             else:
-                error = 'Invalid lgoin'
+                error = 'Invalid Lgoin Credentials!'
                 return render_template('login.html', error=error)
 
                 # CLose DB
                 db.close()
 
         else:
-            error = 'Username not found'
+            error = 'Username Not Found!'
             return render_template('login.html', error=error)
 
     return render_template('login.html')
@@ -125,7 +125,7 @@ def login():
 @login_required
 def logout():
     session.clear()
-    flash('You are now logged out', 'success')
+    flash('You are now logged out, Thanks!', 'success')
     return redirect(url_for('login'))
 
 # Search route
@@ -139,8 +139,8 @@ def search():
 
         # Check book isbn or title or author was provided
         if not request.form.get("book"):
-            error = "you must provide abook details for search"
-            return  render_template("dashboard.html", error=error)
+            error = "you must provide a book details for search"
+            return  render_template("search.html", error=error)
 
         # Store query wildcard
         query = "%"+request.form.get("book")+"%"
@@ -152,7 +152,7 @@ def search():
         # If nothing found
         if len(books_res) == 0:
             error = "We can't find any match. Try agin"
-            return render_template("dashboard.html", error=error)
+            return render_template("search.html", error=error)
 
         # Retrun all matches
         msg = "book Found"
@@ -233,3 +233,8 @@ def book_api(isbn):
             "ratings_count" : res['work_ratings_count'],
             "average_rating" : res['average_rating']
     })
+
+@app.route('/dashboard')
+@login_required
+def dashboard():
+    return render_template('dashboard.html')

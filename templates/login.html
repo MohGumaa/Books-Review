@@ -5,18 +5,26 @@
 {% endblock %}
 
 {% block body %}
-  <div class="container marg">
-    <h1>Loging</h1>
+
+  <div class="content-section">
     <form action="/login" method="post">
-      <div class="form-group">
-        <label for="username"></label>
-        <input type="text" name="username" class="form-control" value="{{request.form.username}}">
-      </div>
-      <div class="form-group">
-        <label for="password"></label>
-        <input type="password" name="password" class="form-control" value="{{request.form.password}}">
-      </div>
-      <button type="submit" class="btn btn-primary">Submit</button>
+      <fieldset class="form-group">
+        <legend class="border-bottom">Log In</legend>
+        <div class="form-group">
+          <label for="username"></label>
+          <input type="text" name="username" class="form-control" value="{{request.form.username}}" placeholder="Enter username here" required>
+        </div>
+        <div class="form-group">
+          <label for="password"></label>
+          <input type="password" name="password" class="form-control" value="{{request.form.password}}"  placeholder="Enter your Password here"   required>
+        </div>
+        <button class="btn btn-outline-info" type="submit">Log In</button>
+      </fieldset>
     </form>
+    <div class="border-top pt-3">
+        <small class="text-muted">
+            Need An Account? <a href="/register" class="ml-2">Sign Up Now</a>
+        </small>
+    </div>
   </div>
 {% endblock %}

@@ -4,18 +4,45 @@
   Home
 {% endblock %}
 
-{% block body %}
-  <div class="showcase">
-    <div class="content text-light">
-      {% if session.logged_in == Null %}
-        <h1 class="title font-weight-bold ">Welcome To Book Review</h1>
-        <p class="lead text">This application let you search for books, leave reviews for individual books, and see the reviews made by other people</p>
-        <a href="/register" class="btn btn-primary btn-lg">Join US</a>
-        <a href="/login" class="btn btn-success btn-lg">Sign Up</a>
-        {% else %}
-          <h1 class="title font-weight-bold">Welcome To Book Review</h1>
-          <p class="font-italic text text-info">{{session.username}}</p>
-       {% endif%}
-     </div>
-   </div>
+{% block head %}
+  <div class="mb-5" id="showcase">
+    {% if session.logged_in == Null %}
+        <h1 class="title font-italic">Welcome To Book Review</h1>
+        <p class="lead">
+          This application let you search for books, leave reviews for
+          individual books<br>
+          And see the reviews made by other people.
+        </p>
+        <div class="ml-1">
+          <a href="/register" class="btn btn-primary btn-lg mr-4">Join US</a>
+          <a href="/login" class="btn btn-success btn-lg">Sign Up</a>
+        </div>
+
+      {% else %}
+        <h1 class="font-italic">Find Your New Favourite Book!</h1>
+     {% endif%}
+  </div>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6">
+        <h3 class="pb-4 mb-4 font-italic border-bottom">
+          Deciding what to read next?
+        </h3>
+        <p>
+          You’re in the right place. Tell us what titles or genres you’ve enjoyed
+          in the past, and we’ll give you surprisingly insightful recommendations.
+        </p>
+      </div>
+      <div class="col-md-6">
+        <h3 class="pb-4 mb-4 font-italic border-bottom">
+          What are your friends reading?
+        </h3>
+        <p>
+          Chances are your friends are discussing their favorite
+          (and least favorite) books on Goodreads.
+        </p>
+        <p>Want to learn more? <a href="/dashboard" class="tour-link">Take the tour.</a></p>
+      </div>
+    </div>
+  </div>
 {% endblock %}

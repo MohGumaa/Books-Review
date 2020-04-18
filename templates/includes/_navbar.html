@@ -1,5 +1,5 @@
-<nav class="navbar navbar-expand-md navbar-light bg-light border">
-  <div class="container mt-0">
+<header>
+  <nav class="navbar navbar-expand-md navbar-light bg-light border">
     <a class="navbar-brand" href="/"><strong>Goodreads Review</strong></a>
     <button aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler" data-target="#navbar" data-toggle="collapse" type="button">
         <span class="navbar-toggler-icon"></span>
@@ -10,7 +10,7 @@
         </ul>
         <ul class="navbar-nav ml-auto mt-2">
           {% if session.logged_in %}
-            <li class="nav-item"><a class="nav-link" href="/search">Search</a></li>
+            <li class="nav-item"><a class="nav-link" href="/dashboard">Dashboard</a></li>
             <li class="nav-item"><a class="nav-link" href="/logout">Log Out</a></li>
           {% else %}
             <li class="nav-item"><a class="nav-link" href="/register">Register</a></li>
@@ -18,5 +18,5 @@
         </ul>
     {% endif %}
     </div>
-  </div>
-</nav>
+  </nav>
+</header>
