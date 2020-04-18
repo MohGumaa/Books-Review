@@ -1,0 +1,45 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+  Dashboard
+{% endblock %}
+
+{% block head %}
+  <div class="row">
+    <div class="col-md-3 col-xl-2 bg-light">
+      <form id="searchForm" class="form-group mt-3 pb-3 border-bottom">
+        <input type="text" class="form-control form-control-dark w-100" name="book" id="searchText" placeholder="Search Book Here.....">
+      </form>
+      <div class="d-flex flex-column">
+        <p class="h5 text-muted">Your Interesting:</p>
+        <ul class="navbar-nav p-1 mt-2">
+          <li class="nav-item"><a class="nav-link" href="">Most views</a></li>
+          <li class="nav-item"><a class="nav-link" href="">Most Comment</a></li>
+          <li class="nav-item"><a class="nav-link" href="">Most Rating</a></li>
+          <li class="nav-item"><a class="nav-link" href="">You liked</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4 border-left">
+        <section id="output">
+          <h3 class="pb-4 mt-4 font-italic border-bottom">
+            Search for a book by Title, Author or ISBN.
+          </h3>
+          <p>
+             Type in the ISBN number of a book, the title of a book, or the author of a book
+             to display list of matching results.
+          </p>
+        </section>
+    </main>
+  </div>
+
+{% endblock %}
+
+<!-- action="{{ url_for('search') }}" -->
+<!-- <div class="container marg">
+  <div class="jumbotron text-center">
+    <
+
+  </div>
+</div> -->
