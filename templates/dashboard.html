@@ -8,7 +8,7 @@
   <div class="row">
     <div class="col-md-3 col-lg-2 bg-light pl-4">
       <form id="searchForm" class="form-group mt-3 pb-3 border-bottom">
-        <input type="text" class="form-control form-control-dark w-100" name="book" id="searchText" placeholder="Title/ Author/ ISBN...">
+        <input type="text" class="form-control form-control-dark w-100" id="searchText" autocomplete="off" autofocus  placeholder="Title/ Author/ ISBN...">
       </form>
       <div class="d-none d-sm-none d-md-block d-lg-block">
         <p class="h5 text-muted">Your Interesting:</p>
@@ -31,7 +31,7 @@
              to display list of matching results.
           </p>
         </section>
-        <div class="output"></div>
+        <div id="output" class="row"></div>
     </main>
   </div>
 
