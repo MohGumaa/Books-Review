@@ -1,8 +1,13 @@
+* {
+  box-sizing: border-box;
+}
+
 body {
   margin: 0;
   padding: 0;
   background: #fafafa;
   color: #333333;
+  overflow-x: hidden;
 }
 
 ul {
@@ -35,7 +40,7 @@ a {
 
 #showcase p {
   font-size: 1.5rem;
-  margin-bottom: 1rem;
+  margin-bottom: 0;
   color: #fff;
 }
 
@@ -58,6 +63,6 @@ a {
 }
 
 /* Main Section */
-main.col-md-9 {
-  height: 100vh;
+main.col-lg-10, main.col-md-9 {
+  height: 91.4vh;
 }
