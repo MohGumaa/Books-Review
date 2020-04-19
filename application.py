@@ -128,38 +128,40 @@ def logout():
     flash('You are now logged out, Thanks!', 'success')
     return redirect(url_for('login'))
 
+# Dashboard route
+@app.route('/dashboard')
+@login_required
+def dashboard():
+    return render_template('dashboard.html')
+
 # Search route
-@app.route('/search', methods=['GET', 'POST'])
+@app.route('/search', methods=['POST'])
 @login_required
 def search():
     """ Get book details """
 
-    # Check if user access method
-    if request.method == 'POST':
+    # Check book isbn or title or author was provided
+    if not request.form.get("searchText"):
+        error = "You must provide a book details for search!"
+        return jsonify({"success": False, "error":error})
 
-        # Check book isbn or title or author was provided
-        if not request.form.get("book"):
-            error = "you must provide a book details for search"
-            return  render_template("search.html", error=error)
+    # Store query wildcard
+    query = "%"+request.form.get("searchText")+"%"
 
-        # Store query wildcard
-        query = "%"+request.form.get("book")+"%"
+    # Query DB for any match
+    books_res = db.execute("SELECT * FROM books WHERE isbn LIKE :query OR title LIKE :query OR author LIKE :query",
+                            {"query": query}).fetchall()
 
-        # Query DB for any match
-        books_res = db.execute("SELECT * FROM books WHERE isbn LIKE :query OR title LIKE :query OR author LIKE :query",
-                                {"query": query}).fetchall()
+    # If nothing found
+    if len(books_res) == 0:
+        error = "We can't find any match. Please try with other Title, Author or ISBN!"
+        return jsonify({"success": False, "error":error})
 
-        # If nothing found
-        if len(books_res) == 0:
-            error = "We can't find any match. Try agin"
-            return render_template("search.html", error=error)
-
-        # Retrun all matches
-        msg = "book Found"
-        return render_template('bookshow.html', books_res=books_res ,msg=msg)
-
-    else:
-        return render_template("search.html")
+    # Retrun all matches
+    # msg = "book Found"
+    # print([dict(row) for row in books_res])
+    books = [dict(row) for row in books_res]
+    return jsonify({"success": True, "books": books})
 
 # Bookpage route
 @app.route('/bookpage/<isbn>' ,methods=['GET', 'POST'])
@@ -233,8 +235,3 @@ def book_api(isbn):
             "ratings_count" : res['work_ratings_count'],
             "average_rating" : res['average_rating']
     })
-
-@app.route('/dashboard')
-@login_required
-def dashboard():
-    return render_template('dashboard.html')
