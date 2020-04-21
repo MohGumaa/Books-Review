@@ -206,11 +206,16 @@ def bookpage(isbn):
         ratings_count = res['work_ratings_count']
         average_rating = res['average_rating']
 
+        starPercentage = (float(average_rating) / 5) * 100;
+
+        # Round to nearest 10
+        starPercentageRounded = round(starPercentage / 10) * 10;
+
         reviews = db.execute("SELECT username, review, rating, publish_date FROM users INNER JOIN reviews ON users.id = reviews.user_id WHERE book_isbn = :isbn",{"isbn": isbn}).fetchall()
 
         print(reviews)
 
-        return render_template('bookpage.html', book=book, ratings_count=ratings_count , average_rating=average_rating , reviews=reviews)
+        return render_template('bookpage.html', book=book, ratings_count=ratings_count , average_rating=average_rating,width_value="60%" ,reviews=reviews , starPercentageRounded=starPercentageRounded)
 
 # Api route for get informatioon about any book
 @app.route('/api/<string:isbn>')
