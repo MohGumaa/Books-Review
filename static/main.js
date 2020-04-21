@@ -19,15 +19,17 @@ document.addEventListener('DOMContentLoaded', () => {
         if(data.success){
         data.books.forEach((book) => {
           info_book +=`
-            <div class="col-12 col-sm-6 col-md-3 col-lg-2 mt-3">
-              <div class="card">
-                <h4>${book.title}</h4>
-                <div class="bg-dark">By:<a href="/bookpage/${book.isbn}" class="text-light">${book.author}</a></div>
+            <div class="col-md-6 col-lg-3 mt-3">
+              <div class="book_info">
+                <h4><a href="/bookpage/${book.isbn}">${book.title}</a></h4>
+                <div class="bg-dark text-light">By: <strong>${book.author}</strong></div>
               </div>
             </div>
             `;
           });
 
+          document.querySelector('#text-output').outerHTML=
+          '<h3>Click on name to get more details!</h3>'
           output.innerHTML = info_book;
           console.log(data.books[0].author)
         } else {
