@@ -6,13 +6,17 @@ body {
   margin: 0;
   padding: 0;
   background: #fafafa;
-  color: #333333;
+  color: #333;
   overflow-x: hidden;
 }
 
-ul {
-  list-style: none;
+.main-heading {
+  color: #6c757d;
 }
+
+/* ul {
+  list-style: none;
+} */
 
 a {
   color:#333;
@@ -63,14 +67,63 @@ a {
 }
 
 /* Main Section */
-main.col-lg-10, main.col-md-9 {
-  height: 91.4vh;
+main.col-lg-10, main.col-md-9 , div.col-md-10{
+  height: 100%;
 }
 
 /* Card section */
-.card {
+.book_info {
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); /* this adds the "card" effect */
-  padding: 16px;
-  text-align: center;
   background-color: #f1f1f1;
+  height: 200px;
+  text-align: center;
+  position: relative;
+  margin-bottom: 1rem;
+}
+
+.book_info h4 {
+  padding-top: 3rem;
+  font-size: 1.75rem;
+}
+
+.book_info div {
+  position: absolute;
+  bottom: 0;
+  height: 60px;
+  width: 100%;
+  font-size: 1.5rem;
+}
+
+/* Book Detail */
+ul.book_detail li {
+  padding: 0.6rem 0;
+}
+
+/* Stars */
+.stars-outer {
+  position: relative;
+  display: inline-block;
+}
+
+.stars-inner {
+  position: absolute;
+  top: 0;
+  left: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  width: 0;
+}
+
+.stars-outer::before {
+  content: "\f005 \f005 \f005 \f005 \f005";
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+  color: #ccc;
+}
+
+.stars-inner::before {
+  content: "\f005 \f005 \f005 \f005 \f005";
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+  color: #f8ce0b;
 }
