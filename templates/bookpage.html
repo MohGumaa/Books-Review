@@ -4,30 +4,68 @@
    {{book.title}} book
 {% endblock %}
 
-{% block body %}
-  <div class="container marg">
-    <table class="table table-bordered">
-      <thead class="thead-light">
-        <tr>
-          <th scope="col">ISBN</th>
-          <th scope="col">Title</th>
-          <th scope="col">Author</th>
-          <th scope="col">Year</th>
-          <th scope="col">Average Rating</th>
-          <th scope="col">Reviews</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>{{book.isbn}}</td>
-          <td>{{book.title}}</td>
-          <td>{{book.author}}</td>
-          <td>{{book.year}}</td>
-          <td>{{average_rating}}</td>
-          <td>{{ratings_count}}</td>
-        </tr>
-      </tbody>
-    </table>
+{% block head %}
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-2 mt-4">
+        <h2 class="main-heading border-bottom">Book: <i class="text-dark">{{book.title}}</i></h2>
+        <p>
+          Here some information about book, Also you can Rate, comment and
+          see other Reviews.
+        </p>
+      </div>
+
+      <div class="col-md-10 border-left p-3">
+        <h3 class="border-bottom pb-3">
+          {{book.title}} (English)
+          <small>
+            <div class="stars-outer">
+              <div class="stars-inner" style="width:{{starPercentageRounded}}%"></div>
+              <span class="number-rating"></span>
+            </div>
+            <a href="#" class="ml-4 text-primary">Writing reviews</a>
+          </small>
+        </h3>
+
+        <div class="d-flex flex-row bd-highlight border-bottom">
+          <h2 class="main-heading">Book Details</h2>
+          <ul class="book_detail">
+            <li >Title:{{book.title}}</li>
+            <li >Author:{{book.author}}</li>
+            <li>ISBN:{{book.isbn}}</li>
+            <li >Year:{{book.year}}</li>
+            <li >Average Rating:{{average_rating}}</li>
+            <li >Review:{{ratings_count}}</li>
+          </ul>
+        </div>
+
+        <!-- Rate and Review -->
+        <h3>Rating & Review:</h3>
+        <div class="d-flex flex-column bd-highlight">
+
+            {% for review in reviews %}
+            <div class="card mb-2">
+              <div class="card-header">
+                <p class="text-capitalize"><strong>{{review.username}}</strong></p>
+                <div class="stars-outer">
+                  <div class="stars-inner" style="width:{{review.rating * 20}}%"></div>
+                </div>
+                <small>Last Update {{review.publish_date}}</small>
+              </div>
+              <div class="card-body">
+                <p class="card-text">on {{review.review}}.</p>
+              </div>
+            </div>
+            {% else %}
+              <h1>No Review</h1>
+            {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- <div class="container marg">
+
     <p class="h1 mb-3">Leave a review ?</p>
     <form class="" action="/bookpage/{{book.isbn}}" method="post">
       <label class="my-1 mr-2" for="inlineFormCustomSelectPref">Rating</label>
@@ -47,26 +85,6 @@
     </form>
 
     <h2 class="mt-5 h2">Reveiws :</h2>
-    <div>
-      <ul class="list-group list-group-flush">
-        {% for review in reviews %}
-          <li class="list-group-item">
-            <div class="card">
-              <div class="card-header">
-                {{review.username}}: * {{review.rating}}
-              </div>
-              <div class="card-body">
-                <p class="card-text">{{review.review}}.</p>
-              </div>
-              <div class="card-footer">
-                <small class="text-muted">Last updated {{review.publish_date}}</small>
-              </div>
-            </div>
-          </li>
-        {% else %}
-          <li class="list-group-item"><h1>No Review</h1></li>
-        {% endfor %}
-      </ul>
-    </div>
-  </div>
+
+  </div> -->
 {% endblock %}
