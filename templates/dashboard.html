@@ -8,14 +8,13 @@
   <div class="row">
     <div class="col-md-3 col-lg-2 bg-light pl-4">
       <form id="searchForm" class="form-group mt-3 pb-3 border-bottom">
-        <input type="text" class="form-control form-control-dark w-100" id="searchText" autocomplete="off" autofocus  placeholder="Title/ Author/ ISBN...">
+        <input type="text" class="form-control form-control-dark w-100" name="book" value="" id="searchText" autocomplete="off" autofocus  placeholder="Title/ Author/ ISBN...">
       </form>
+
       <div class="d-none d-sm-none d-md-block d-lg-block">
         <p class="h5 text-muted">Your Interesting:</p>
         <ul class="navbar-nav mt-1">
-          <li class="nav-item"><a class="nav-link" href="">Most views</a></li>
           <li class="nav-item"><a class="nav-link" href="">Most Comment</a></li>
-          <li class="nav-item"><a class="nav-link" href="">Most Rating</a></li>
           <li class="nav-item"><a class="nav-link" href="">You liked</a></li>
         </ul>
       </div>
@@ -26,12 +25,10 @@
           <h3 class="pb-3 mt-2 font-italic border-bottom d-none d-lg-block">
             Search for a book by Title, Author or ISBN.
           </h3>
-          <p id="text-output">
-             Type in the ISBN number of a book, the title of a book, or the author of a book
-             to display list of matching results.
-          </p>
+          <p><strong>Click on name of the book to get more details:</strong></p>
         </section>
         <div id="output" class="row"></div>
+        <div class="loader">loading</div>
     </main>
   </div>
 
