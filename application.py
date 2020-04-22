@@ -42,7 +42,12 @@ def index():
 # User Register
 @app.route('/register', methods=['GET', 'POST'])
 def register():
+    """Register new user using RegisterForm"""
+
+    # Create Form with field
     form = RegisterForm(request.form)
+
+    # If user submit form with validate data
     if request.method == 'POST' and form.validate():
         name = form.name.data
         email = form.email.data.lower()
@@ -63,7 +68,7 @@ def register():
                     error = "username Already Exist"
                     return render_template("register.html", form=form, error=error)
 
-        #  Execute query  by insert into DB
+        #  Execute query  by insert into DB new username and password
         db.execute("INSERT INTO users (name, email, username, password) VALUES (:name, :email, :username, :password)",
                 {"name": name, "email": email, "username": username, "password": password})
 
@@ -73,10 +78,8 @@ def register():
         # Close the DB
         db.close()
 
-        # Flashing after complete transaction
+        # Flashing after complete transaction and Redirector
         flash ('You are now Registered and you can log in', 'success')
-
-        # Redirector
         return redirect(url_for('login'))
 
     return render_template('register.html', form = form)
@@ -84,6 +87,7 @@ def register():
 # User Login
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    """Login function for existing user with validate Credentials data."""
 
     # Check if user access method
     if request.method == 'POST':
@@ -95,35 +99,37 @@ def login():
         # Get username and password form database
         user = db.execute("SELECT * FROM users WHERE username = :username", {"username": username}).fetchone()
 
-        # Ensure username exists and password is correct
+        # If username exists and password is correct save current in Session
         if user != None:
             password = user.password
             if check_password_hash(password, password_enter):
                 session['logged_in'] = True
-                session['username'] = username.capitalize()
+                session['username'] = username
                 session["user_id"] = user.id
 
-                # message = f" Your are now logged in {session['username']}"
-                # flash(message, 'success')
-                return redirect(url_for('index'))
+                # CLose DB and redirect to search page
+                db.close()
+                return redirect(url_for('dashboard'))
 
+            # Else if username or password or both are wrong
             else:
                 error = 'Invalid Lgoin Credentials!'
                 return render_template('login.html', error=error)
 
-                # CLose DB
-                db.close()
-
+        # If user does not exists
         else:
             error = 'Username Not Found!'
             return render_template('login.html', error=error)
 
+    # If user access through Get Route
     return render_template('login.html')
 
 # Logout
 @app.route('/logout')
 @login_required
 def logout():
+    """Logout remove user from session and redirect to login page"""
+
     session.clear()
     flash('You are now logged out, Thanks!', 'success')
     return redirect(url_for('login'))
@@ -138,17 +144,17 @@ def dashboard():
 @app.route('/search', methods=['POST'])
 @login_required
 def search():
-    """ Get book details """
+    """ Get book details When receive xml request from js with search query"""
 
-    # Check book isbn or title or author was provided
+    # Check book isbn or title or author was provided if
     if not request.form.get("searchText"):
         error = "You must provide a book details for search!"
         return jsonify({"success": False, "error":error})
 
-    # Store query wildcard
+    # Store query wildcard to search with any part of book detail
     query = "%"+request.form.get("searchText")+"%"
 
-    # Query DB for any match
+    # Query DB for any match of book or books
     books_res = db.execute("SELECT * FROM books WHERE isbn LIKE :query OR title LIKE :query OR author LIKE :query",
                             {"query": query}).fetchall()
 
@@ -157,9 +163,7 @@ def search():
         error = "We can't find any match. Please try with other Title, Author or ISBN!"
         return jsonify({"success": False, "error":error})
 
-    # Retrun all matches
-    # msg = "book Found"
-    # print([dict(row) for row in books_res])
+    # convert list to direction and return to js to display
     books = [dict(row) for row in books_res]
     return jsonify({"success": True, "books": books})
 
@@ -178,7 +182,7 @@ def bookpage(isbn):
                      "book_isbn": isbn})
 
         if check_review.rowcount == 1:
-            flash('You already submitted a review for this book', 'warning')
+
             return redirect("/bookpage/" + isbn)
         else:
             db.execute("INSERT INTO reviews (review, rating, user_id, book_isbn) VALUES (:review, :rating, :user_id, :book_isbn)",
@@ -188,34 +192,38 @@ def bookpage(isbn):
             "book_isbn": isbn})
 
             db.commit()
+            check = False
 
-            flash(' Review submit for this book', 'success')
             return redirect("/bookpage/" + isbn)
-
 
     # User access the page through GET
     else:
+        # Active to check user comment or not
+        check = True
+
         # Query DB for any match
         book = db.execute("SELECT * FROM books WHERE isbn = :isbn",
                                 {"isbn": isbn}).fetchone()
 
-        """GoodReads API"""
+        """GoodReads API to get ratings_count and average_rating value"""
         res = requests.get("https://www.goodreads.com/book/review_counts.json",
                            params={"key": "xC8CXDYwBlxBLMxmOHjyJw", "isbns": isbn}).json()["books"][0]
-
         ratings_count = res['work_ratings_count']
         average_rating = res['average_rating']
 
+        # Here for star of the book from API to fill width in 100%
         starPercentage = (float(average_rating) / 5) * 100;
-
-        # Round to nearest 10
         starPercentageRounded = round(starPercentage / 10) * 10;
 
+        # Query the DB for comments of all users
         reviews = db.execute("SELECT username, review, rating, publish_date FROM users INNER JOIN reviews ON users.id = reviews.user_id WHERE book_isbn = :isbn",{"isbn": isbn}).fetchall()
 
-        print(reviews)
+        # Here to check if current user already commment then set active
+        for review in reviews:
+            if session['username'].lower() == review[0]:
+                check = False
 
-        return render_template('bookpage.html', book=book, ratings_count=ratings_count , average_rating=average_rating,width_value="60%" ,reviews=reviews , starPercentageRounded=starPercentageRounded)
+        return render_template('bookpage.html', book=book, ratings_count=ratings_count , average_rating=average_rating,reviews=reviews, check = check, starPercentageRounded=starPercentageRounded)
 
 # Api route for get informatioon about any book
 @app.route('/api/<string:isbn>')
@@ -226,17 +234,17 @@ def book_api(isbn):
 
     # Make sure book exists
     if book is None:
-        return jsonify({"error": "Invalid book_isbn"}), 404
+        return jsonify({"Error": "Invalid book isbn"}), 404
 
     """GoodReads API"""
     res = requests.get("https://www.goodreads.com/book/review_counts.json",
                        params={"key": "xC8CXDYwBlxBLMxmOHjyJw", "isbns": isbn}).json()["books"][0]
 
     return jsonify({
-            "isbn" : book.isbn,
-            "title" : book.title,
-            "author" : book.author,
-            "year" : book.year,
-            "ratings_count" : res['work_ratings_count'],
-            "average_rating" : res['average_rating']
+        "title" : book.title,
+        "author" : book.author,
+        "year" : book.year,
+        "isbn" : book.isbn,
+        "review_count" : res['work_reviews_count'],
+        "average_score" : res['average_rating']
     })
