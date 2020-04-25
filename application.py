@@ -207,7 +207,7 @@ def bookpage(isbn):
 
         """GoodReads API to get ratings_count and average_rating value"""
         res = requests.get("https://www.goodreads.com/book/review_counts.json",
-                           params={"key": "xC8CXDYwBlxBLMxmOHjyJw", "isbns": isbn}).json()["books"][0]
+                           params={"key": os.getenv("API_KEY"), "isbns": isbn}).json()["books"][0]
         ratings_count = res['work_ratings_count']
         average_rating = res['average_rating']
 
@@ -222,7 +222,7 @@ def bookpage(isbn):
         for review in reviews:
             if session['username'].lower() == review[0]:
                 check = False
-
+        
         return render_template('bookpage.html', book=book, ratings_count=ratings_count , average_rating=average_rating,reviews=reviews, check = check, starPercentageRounded=starPercentageRounded)
 
 # Api route for get informatioon about any book
@@ -238,7 +238,7 @@ def book_api(isbn):
 
     """GoodReads API"""
     res = requests.get("https://www.goodreads.com/book/review_counts.json",
-                       params={"key": "xC8CXDYwBlxBLMxmOHjyJw", "isbns": isbn}).json()["books"][0]
+                       params={"key": os.getenv("API_KEY"), "isbns": isbn}).json()["books"][0]
 
     return jsonify({
         "title" : book.title,
