@@ -6,26 +6,44 @@
 
 {% block head %}
   <div class="row">
-    <div class="col-md-3 col-lg-2 bg-light pl-4">
+    <div class="col-md-3 col-lg-2 bg-light pl-4 mb-3 border-right">
       <form id="searchForm" class="form-group mt-3 pb-3 border-bottom">
         <input type="text" class="form-control form-control-dark w-100" name="book" value="" id="searchText" autocomplete="off" autofocus  placeholder="Title/ Author/ ISBN...">
       </form>
 
       <div class="d-none d-sm-none d-md-block d-lg-block">
-        <p class="h5 text-muted">Your Interesting:</p>
-        <ul class="navbar-nav mt-1">
-          <li class="nav-item"><a class="nav-link" href="">Most Comment</a></li>
-          <li class="nav-item"><a class="nav-link" href="">You liked</a></li>
+        <p class="h5 text-muted">Guiding information:</p>
+        <ul class="list-unstyled">
+          <li>Search for a book by:
+            <ul>
+              <li>Title</li>
+              <li>Author</li>
+              <li>ISBN</li>
+            </ul>
+          </li>
+          <li>Then you can choose any book for more Details about it.</li>
+          <li>You can also access website through API: <strong>/api/isbn</strong></li>
+          <li>response JSON book info:
+            <ul>
+              <li>Title</li>
+              <li>Author</li>
+              <li>Year</li>
+              <li>ISBN</li>
+              <li>Review count</li>
+              <li>Average Score</li>
+            </ul>
+          </li>
+          <li>Enjoy your Tour.</li>
         </ul>
+
       </div>
     </div>
 
-    <main role="main" class="col-md-9 col-lg-10 px-4 border-left">
+    <main role="main" class="col-md-9 col-lg-10 px-4">
         <section>
-          <h3 class="pb-3 mt-2 font-italic border-bottom d-none d-lg-block">
-            Search for a book by Title, Author or ISBN.
+          <h3 class="pb-3 mt-2 font-italic border-bottom">
+            Click on name of the book to get more details:
           </h3>
-          <p><strong>Click on name of the book to get more details:</strong></p>
         </section>
         <div id="output" class="row"></div>
         <div class="loader">loading</div>
