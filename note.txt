@@ -1,5 +1,0 @@
-
-
-postgres://dalarthhucvpsx:035a5ef4bf71dbbfc2e1d34a8563adf93d008807e3208f9461e8cad65b548265@ec2-107-22-160-102.compute-1.amazonaws.com:5432/dcula2odtl77a5
-
-key: xC8CXDYwBlxBLMxmOHjyJw
