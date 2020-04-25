@@ -13,6 +13,11 @@
           Here some information about book, Also you can Rate, comment and
           see other Reviews.
         </p>
+
+        <p class="border-bottom text-primary h3 mt-3 d-none d-lg-block"><em>Important:</em></p>
+        <p class="d-none d-lg-block">
+          You can get book information throught API (GET request) <strong>/api/isbn</strong>
+        </p>
       </div>
 
       <div class="col-md-10 border-left p-3">
@@ -32,7 +37,7 @@
           <ul class="book_detail">
             <li >Title:{{book.title}}</li>
             <li >Author:{{book.author}}</li>
-            <li>ISBN:{{book.isbn}}</li>
+            <li><a href="/api/{{book.isbn}}" class="tour-link h5">ISBN:{{book.isbn}}</a></li>
             <li >Year:{{book.year}}</li>
             <li >Average Rating:{{average_rating}}</li>
             <li >Review:{{ratings_count}}</li>
@@ -69,10 +74,10 @@
                 <div class="stars-outer">
                   <div class="stars-inner" style="width:{{review.rating * 20}}%"></div>
                 </div>
-                <small>Last Update {{review.publish_date}}</small>
+                <small>on: {{review.publish_date}}</small>
               </div>
               <div class="card-body">
-                <p class="card-text">on {{review.review}}.</p>
+                <p class="card-text">{{review.review}}.</p>
               </div>
             </div>
             {% else %}
