@@ -33,7 +33,8 @@ a {
 
 #showcase h1 {
   font-size: 4rem;
-  color: #f2f2f2;
+  font-weight: bold;
+  color: #fff;
 }
 
 #showcase p {
@@ -60,10 +61,14 @@ a {
   margin-bottom: 20px;
 }
 
-/* Main Section */
-main.col-lg-10, main.col-md-9 , div.col-md-10{
-  min-height: 100%;
+/* Left Section */
+div.col-md-3{
   height: 100vh;
+}
+
+/* list-unstyled */
+.list-unstyled li {
+  padding: 0.3rem 0.1rem;
 }
 
 /* Card section */
@@ -155,4 +160,16 @@ ul.book_detail li {
   transition: opacity 1s ease-in;
   /* opacity: 0; */
   width: 100%
+}
+
+@media (max-width: 768px) {
+  div.col-md-3 {
+    height: 5vh;
+    margin-bottom: 2rem !important;
+  }
+
+  .loader {
+    margin-top: 5vh;
+    top: 100%;
+  }
 }
