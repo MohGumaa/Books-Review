@@ -26,6 +26,6 @@ __How to run App:__
 pip install -r requirements.txt
 export FLASK_APP=application.py
 export FLASK_DEBUG=1
-export DATABASE_URL="your postgreSQL form heroku Credentials"    
+export DATABASE_URL="your postgreSQL form heroku Credentials."    
 export GOODREADS_KEY = Goodreads API Key. # More info: https://www.goodreads.com/api
 ```
