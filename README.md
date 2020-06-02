@@ -14,8 +14,12 @@ then log in using their username and password. Once they login, they will be abl
     * __bookpage__ :  page for book details reviews by other people also  to write your review and rating ,access API.
 3. application:
     * Handling registration request, logging in and logout, Also search for book and review and API access request.
-    
+
 ---
+### Usage
+* Register and login in
+* Search Books by name, author or isbn
+* Get info about a book and submit your own review!
 
 __How to run App:__
 ```
@@ -23,4 +27,5 @@ pip install -r requirements.txt
 export FLASK_APP=application.py
 export FLASK_DEBUG=1
 export DATABASE_URL="your postgreSQL form heroku Credentials"    
+export GOODREADS_KEY = Goodreads API Key. # More info: https://www.goodreads.com/api
 ```
