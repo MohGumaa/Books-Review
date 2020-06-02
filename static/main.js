@@ -60,10 +60,10 @@ function findBooks(searchText, loader, output) {
         output.innerHTML = info_book;
         setTimeout(() => (output.style.opacity = 1), 50);
         searchText.value = '';
-        console.log(searchText);
+        // console.log(searchText);
 
       }, 100);
-      console.log(data);
+      // console.log(data);
     } else {
       const error =
       `<div class="alert alert-danger" role="alert" style="width:100%">
