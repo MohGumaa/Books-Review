@@ -1,7 +1,9 @@
 import os, requests
+import hashlib
 
 from flask import Flask, session, render_template, request, redirect, url_for, flash, jsonify
 from flask_session import Session
+from tempfile import mkdtemp
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 from wtforms import Form, StringField, TextAreaField, PasswordField, validators
@@ -14,7 +16,20 @@ app = Flask(__name__)
 if not os.getenv("DATABASE_URL"):
     raise RuntimeError("DATABASE_URL is not set")
 
+# Ensure templates are auto-reloaded
+app.config["TEMPLATES_AUTO_RELOAD"] = True
+
+# Ensure responses aren't cached
+@app.after_request
+def after_request(response):
+    response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
+    response.headers["Expires"] = 0
+    response.headers["Pragma"] = "no-cache"
+    return response
+
+
 # Configure session to use filesystem
+app.config["SESSION_FILE_DIR"] = mkdtemp()
 app.config["SESSION_TYPE"] = "filesystem"
 app.config["SESSION_PERMANENT"] = False
 Session(app)
@@ -37,12 +52,16 @@ class RegisterForm(Form):
 # Index Route
 @app.route("/")
 def index():
+
     return render_template('index.html')
 
 # User Register
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     """Register new user using RegisterForm"""
+
+    # Forget any user_id
+    session.clear()
 
     # Create Form with field
     form = RegisterForm(request.form)
@@ -89,6 +108,9 @@ def register():
 def login():
     """Login function for existing user with validate Credentials data."""
 
+    # Forget any user_id
+    session.clear()
+
     # Check if user access method
     if request.method == 'POST':
 
@@ -132,6 +154,7 @@ def logout():
 
     session.clear()
     flash('You are now logged out, Thanks!', 'success')
+
     return redirect(url_for('login'))
 
 # Dashboard route
@@ -222,7 +245,7 @@ def bookpage(isbn):
         for review in reviews:
             if session['username'].lower() == review[0]:
                 check = False
-        
+
         return render_template('bookpage.html', book=book, ratings_count=ratings_count , average_rating=average_rating,reviews=reviews, check = check, starPercentageRounded=starPercentageRounded)
 
 # Api route for get informatioon about any book
