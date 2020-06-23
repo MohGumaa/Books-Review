@@ -5,7 +5,22 @@
 {% endblock %}
 
 {% block head %}
-  <div class="row">
+    <div class="container mt-4">
+        <h1 class="display-4 text-center">
+        <i class="fas fa-book-open text-primary"></i> Search for a <span class="text-primary">Book</span>
+        </h1>
+        <form id="book-form">
+            <div class="form-group">
+                <input type="text" id="book-info" class="form-control" placeholder="Enter ISBN, Title or Author of book">
+            </div>
+            <input type="submit" value="Search" class="btn btn-primary btn-block">
+        </form>
+
+        <div id="book-list"></div>
+    </div>
+
+
+  <!-- <div class="row">
     <div class="col-md-3 col-lg-2 bg-light pl-4 mb-3 border-right">
       <form id="searchForm" class="form-group mt-3 pb-3 border-bottom">
         <input type="text" class="form-control form-control-dark w-100" name="book" value="" id="searchText" autocomplete="off" autofocus  placeholder="Title/ Author/ ISBN...">
@@ -48,6 +63,6 @@
         <div id="output" class="row"></div>
         <div class="loader">loading</div>
     </main>
-  </div>
+  </div> -->
 
 {% endblock %}

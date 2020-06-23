@@ -6,11 +6,14 @@
 
 {% block head %}
   <div class="mb-5" id="showcase">
+      <div class="bg-img">
+
+      </div>
     {% if session.logged_in == Null %}
         <h1 class="title">Welcome To Bookshelf</h1>
         <p class="font-italic mb-3">
-          Hello, You can Search in Our database of 5000 books to read, review
-          <br> Review Rating and writing comments with rating, Also See other Review.
+          You can Search in Our database of 5000 books to search for your
+          interest book Also you can leave Reviews and See other Review.
         </p>
         <div class="ml-1">
           <a href="/register" class="btn btn-primary btn-lg mr-4">Join US</a>
@@ -18,7 +21,8 @@
         </div>
 
       {% else %}
-        <h1 class="font-italic">Find Your New Favourite Book!</h1>
+        <h1 class="title">Reading is fascinating, find your favorite book now.</h1>
+
      {% endif%}
   </div>
   <div class="container" id="about">
@@ -28,7 +32,7 @@
           Deciding what to read next?
         </h3>
         <p>
-          You’re in the right place. Tell us what titles or genres you have enjoyed
+          You’re in the right place. Tell us what ISBN , titles or author you have enjoyed
           in the past, and we’ll give you surprisingly insightful recommendations.
         </p>
       </div>

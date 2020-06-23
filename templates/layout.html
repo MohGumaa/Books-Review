@@ -23,18 +23,18 @@
     <title>{% block title %}{% endblock %}</title>
   </head>
   <body>
-
     <!-- Navigation Part -->
     {% include 'includes/_navbar.html'%}
+    {% include 'includes/_messages.html'%}
 
     <!-- Home part  -->
-    {% block head %} {% endblock%}
+    {% block head %}
+    {% endblock%}
 
     <!-- for Login and register pages  -->
-    <div class="container mt-1">
+    <div class="container mt-2">
       <div class="row">
         <div class="col-md-8">
-          {% include 'includes/_messages.html' %}
           {% block body %}
           {% endblock %}
         </div>

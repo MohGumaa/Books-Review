@@ -20,6 +20,7 @@ a {
 }
 
 /* Navigation */
+
 .navbar {
   padding: 0 8rem !important;
 }
@@ -27,25 +28,39 @@ a {
 /* Showcase Section */
 #showcase {
   min-height: 60vh;
-  background: url('library.jpg') no-repeat 0 -400px;
   padding: 3rem;
   display: flex;
   flex-direction: column;
   align-items: start;
   justify-content: center;
   color: #181818;
+  position: relative;
 }
+
+#showcase .bg-img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('library.jpg') no-repeat;
+    z-index: -1;
+    opacity: 0.9;
+}
+
 
 #showcase h1 {
   font-size: 4rem;
   font-weight: bold;
   color: #fff;
+  width: 60%;
 }
 
 #showcase p {
   font-size: 1.5rem;
   margin-bottom: 0;
   color: #fff;
+  width: 50%;
 }
 
 /* tour-link */

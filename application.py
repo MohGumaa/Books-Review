@@ -98,7 +98,7 @@ def register():
         db.close()
 
         # Flashing after complete transaction and Redirector
-        flash ('You are now Registered and you can log in', 'success')
+        flash("You are now Registered and you can log in", "success")
         return redirect(url_for('login'))
 
     return render_template('register.html', form = form)
@@ -153,7 +153,7 @@ def logout():
     """Logout remove user from session and redirect to login page"""
 
     session.clear()
-    flash('You are now logged out, Thanks!', 'success')
+    flash("You are now logged out, Thanks!", "success")
 
     return redirect(url_for('login'))
 
