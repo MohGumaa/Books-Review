@@ -1,90 +1,114 @@
-{% extends 'layout.html' %}
-
-{% block title %}
-   {{book.title}} book
-{% endblock %}
-
+{% extends 'layout.html' %} {% block title %} {{book.title}} book {% endblock %}
 {% block head %}
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col-md-2 mt-4">
-        <h2 class="main-heading border-bottom">Book: <i class="text-dark">{{book.title}}</i></h2>
-        <p>
-          Here some information about book, Also you can Rate, comment and
-          see other Reviews.
-        </p>
+<div class="container"></div>
 
-        <p class="border-bottom text-primary h3 mt-3 d-none d-lg-block"><em>Important:</em></p>
-        <p class="d-none d-lg-block">
-          You can get book information throught API (GET request) <strong>/api/isbn</strong>
-        </p>
+<div class="container">
+  <div class="row">
+    <div class="col-md-2 mt-4">
+      <h2 class="main-heading border-bottom">
+        Book: <i class="text-dark">{{book.title}}</i>
+      </h2>
+      <p>
+        Here some information about book, Also you can Rate, comment and see
+        other Reviews.
+      </p>
+
+      <p class="border-bottom text-primary h3 mt-3 d-none d-lg-block">
+        <em>Important:</em>
+      </p>
+      <p class="d-none d-lg-block">
+        You can get book information throught API (GET request)
+        <strong>/api/isbn</strong>
+      </p>
+    </div>
+
+    <div class="col-md-10 border-left p-3">
+      <h3 class="border-bottom pb-3">
+        {{book.title}} (English)
+        <small>
+          <div class="stars-outer">
+            <div
+              class="stars-inner"
+              style="width:{{starPercentageRounded}}%"
+            ></div>
+            <span class="number-rating"></span>
+          </div>
+          <!-- <a href="#" class="ml-4 text-primary">Writing reviews</a> -->
+        </small>
+      </h3>
+
+      <div class="d-flex flex-row bd-highlight border-bottom">
+        <h2 class="main-heading">Book Details</h2>
+        <ul class="book_detail">
+          <li>Title:{{book.title}}</li>
+          <li>Author:{{book.author}}</li>
+          <li>
+            <a href="/api/{{book.isbn}}" class="tour-link h5" target="_blank"
+              >ISBN:{{book.isbn}}</a
+            >
+          </li>
+          <li>Year:{{book.year}}</li>
+          <li>Average Rating:{{average_rating}}</li>
+          <li>Review:{{ratings_count}}</li>
+        </ul>
       </div>
 
-      <div class="col-md-10 border-left p-3">
-        <h3 class="border-bottom pb-3">
-          {{book.title}} (English)
-          <small>
+      <!-- Rate and Review -->
+      <h3>Rating & Review:</h3>
+      {% if check %}
+      <p class="h1 mb-3">Leave a review ?</p>
+      <form class="pb-4" action="/bookpage/{{book.isbn}}" method="post">
+        <label class="my-1 mr-2" for="inlineFormCustomSelectPref">Rating</label>
+        <select
+          class="custom-select my-1 mr-sm-2"
+          id="inlineFormCustomSelectPref"
+          name="rating"
+          required
+        >
+          <option disabled selected value="">Choose Rate 1 - 5</option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+        </select>
+        <div class="form-group">
+          <label for="exampleFormControlTextarea1">Review</label>
+          <textarea
+            class="form-control"
+            id="exampleFormControlTextarea1"
+            rows="3"
+            required
+            name="review"
+            required
+          ></textarea>
+        </div>
+        <button class="btn btn-primary" type="submit">Submit</button>
+      </form>
+      {% endif %}
+
+      <div class="d-flex flex-column bd-highlight">
+        {% for review in reviews %}
+        <div class="card mb-2">
+          <div class="card-header">
+            <p class="text-capitalize"><strong>{{review.username}}</strong></p>
             <div class="stars-outer">
-              <div class="stars-inner" style="width:{{starPercentageRounded}}%"></div>
-              <span class="number-rating"></span>
+              <div
+                class="stars-inner"
+                style="width:{{review.rating * 20}}%"
+              ></div>
             </div>
-            <!-- <a href="#" class="ml-4 text-primary">Writing reviews</a> -->
-          </small>
-        </h3>
-
-        <div class="d-flex flex-row bd-highlight border-bottom">
-          <h2 class="main-heading">Book Details</h2>
-          <ul class="book_detail">
-            <li >Title:{{book.title}}</li>
-            <li >Author:{{book.author}}</li>
-            <li><a href="/api/{{book.isbn}}" class="tour-link h5" target="_blank">ISBN:{{book.isbn}}</a></li>
-            <li >Year:{{book.year}}</li>
-            <li >Average Rating:{{average_rating}}</li>
-            <li >Review:{{ratings_count}}</li>
-          </ul>
-        </div>
-
-        <!-- Rate and Review -->
-        <h3>Rating & Review:</h3>
-        {% if check %}
-        <p class="h1 mb-3">Leave a review ?</p>
-        <form class="pb-4" action="/bookpage/{{book.isbn}}" method="post">
-          <label class="my-1 mr-2" for="inlineFormCustomSelectPref">Rating</label>
-          <select class="custom-select my-1 mr-sm-2" id="inlineFormCustomSelectPref" name="rating" required>
-            <option disabled selected value="">Choose Rate 1 - 5</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-          </select>
-          <div class="form-group">
-            <label for="exampleFormControlTextarea1">Review</label>
-            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" required name="review" required></textarea>
+            <small>on: {{review.publish_date}}</small>
           </div>
-          <button class="btn btn-primary" type="submit">Submit</button>
-        </form>
-        {% endif %}
-
-        <div class="d-flex flex-column bd-highlight">
-            {% for review in reviews %}
-            <div class="card mb-2">
-              <div class="card-header">
-                <p class="text-capitalize"><strong>{{review.username}}</strong></p>
-                <div class="stars-outer">
-                  <div class="stars-inner" style="width:{{review.rating * 20}}%"></div>
-                </div>
-                <small>on: {{review.publish_date}}</small>
-              </div>
-              <div class="card-body">
-                <p class="card-text">{{review.review}}.</p>
-              </div>
-            </div>
-            {% else %}
-              <h1>No Review</h1>
-            {% endfor %}
+          <div class="card-body">
+            <p class="card-text">{{review.review}}.</p>
+          </div>
         </div>
+        {% else %}
+        <h1>No Review</h1>
+        {% endfor %}
       </div>
     </div>
   </div>
+</div>
 {% endblock %}
